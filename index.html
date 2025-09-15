@@ -43,23 +43,6 @@
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        
-        @media (min-width: 992px) {
-            .container {
-                flex-direction: row;
-            }
-            
-            .calculator-container {
-                flex: 3;
-            }
-            
-            .summary-container {
-                flex: 2;
-            }
         }
         
         .card {
@@ -302,63 +285,7 @@
             background: var(--primary-dark);
         }
         
-        /* Стили для итоговой суммы */
-        .total-price-container {
-            position: sticky;
-            top: 20px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            margin-bottom: 24px;
-            border: 1px solid var(--border);
-        }
-        
-        .total-price-label {
-            font-size: 16px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
-        
-        .total-price {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 16px;
-            transition: var(--transition);
-        }
-        
-        .price-breakdown {
-            text-align: left;
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .price-line {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-        
-        .price-line:last-child {
-            border-bottom: none;
-        }
-        
-        .price-line-total {
-            font-weight: 700;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 2px solid var(--border);
-            font-size: 16px;
-        }
-        
-        /* Стили для чека */
+        /* Receipt styles */
         .receipt-container {
             background: var(--card-bg);
             border-radius: 10px;
@@ -435,13 +362,11 @@
             border-radius: 16px;
         }
         
-        .free-badge {
-            background: var(--success);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            margin-left: 6px;
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
         }
         
         .action-buttons {
@@ -472,17 +397,6 @@
             background: #d97706;
         }
         
-        /* Анимация изменения цены */
-        @keyframes priceChange {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); color: var(--success); }
-            100% { transform: scale(1); }
-        }
-        
-        .price-updated {
-            animation: priceChange 0.5s ease;
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -506,244 +420,224 @@
                 width: 100%;
             }
             
-            .total-price {
-                font-size: 28px;
-            }
-            
-            .price-breakdown {
-                max-height: 200px;
+            .contact-form {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="calculator-container">
-            <div class="card">
-                <h1>Rising Star Manager</h1>
-                <p class="subtitle">Professional competition pricing calculator</p>
-                
-                <!-- Progress bar -->
-                <div class="progress-container">
-                    <div class="progress-bar"></div>
-                    <div class="progress-fill" id="progressFill"></div>
-                    <div class="progress-step active" id="step1Indicator">1</div>
-                    <div class="progress-step" id="step2Indicator">2</div>
-                    <div class="progress-step" id="step3Indicator">3</div>
-                    <div class="progress-step" id="step4Indicator">4</div>
-                    <div class="progress-step" id="step5Indicator">5</div>
-                    <div class="progress-step" id="step6Indicator">6</div>
-                </div>
-                
-                <!-- Step 1: Competition category -->
-                <div class="step active" id="step1">
-                    <div class="question">Select competition category:</div>
-                    <div class="options">
-                        <div class="option" data-value="vocal">
-                            <div class="option-icon">🎤</div>
-                            <div class="option-title">Vocal Competition</div>
-                            <div class="option-desc">Singing contests and vocal performances</div>
-                        </div>
-                        <div class="option" data-value="dance">
-                            <div class="option-icon">💃</div>
-                            <div class="option-title">Dance Competition</div>
-                            <div class="option-desc">Modern, folk, and show dance events</div>
-                        </div>
-                        <div class="option" data-value="ballroom">
-                            <div class="option-icon">👯</div>
-                            <div class="option-title">Ballroom Dancing</div>
-                            <div class="option-desc">Standard and Latin American dances</div>
-                        </div>
-                    </div>
-                    <div class="nav-buttons">
-                        <div></div>
-                        <button class="btn-next" onclick="nextStep(2)">Next</button>
-                    </div>
-                </div>
-                
-                <!-- Step 2: For ballroom dancing - type -->
-                <div class="step" id="step2">
-                    <div class="question">Select ballroom competition type:</div>
-                    <div class="options">
-                        <div class="option" data-value="internal">
-                            <div class="option-icon">🏢</div>
-                            <div class="option-title">Internal</div>
-                            <div class="option-desc">Events within a single organization</div>
-                        </div>
-                        <div class="option" data-value="idsf">
-                            <div class="option-icon">🌍</div>
-                            <div class="option-title">IDSF</div>
-                            <div class="option-desc">International standards, 3 clubs, 3 judges</div>
-                        </div>
-                        <div class="option" data-value="non_idsf">
-                            <div class="option-icon">🎪</div>
-                            <div class="option-title">Non-IDSF</div>
-                            <div class="option-desc">Open competitions and show programs</div>
-                        </div>
-                    </div>
-                    <div class="nav-buttons">
-                        <button class="btn-prev" onclick="prevStep(1)">Back</button>
-                        <button class="btn-next" onclick="nextStep(3)">Next</button>
-                    </div>
-                </div>
-                
-                <!-- Step 3: Number of participants -->
-                <div class="step" id="step3">
-                    <div class="question">Number of participants:</div>
-                    <div class="input-group">
-                        <input type="number" id="participants" min="1" value="80" placeholder="e.g., 80" onchange="updateCalculation()">
-                    </div>
-                    <div style="text-align: center; margin-top: 10px; color: var(--text-secondary); font-size: 14px;">
-                        Fixed price applied for 450+ participants
-                    </div>
-                    <div class="nav-buttons">
-                        <button class="btn-prev" onclick="prevStep(2)">Back</button>
-                        <button class="btn-next" onclick="nextStep(4)">Next</button>
-                    </div>
-                </div>
-                
-                <!-- Step 4: Competition duration -->
-                <div class="step" id="step4">
-                    <div class="question">Competition duration (days):</div>
-                    <div class="input-group">
-                        <input type="number" id="days" min="1" value="1" placeholder="e.g., 2" onchange="updateCalculation()">
-                    </div>
-                    <div class="nav-buttons">
-                        <button class="btn-prev" onclick="prevStep(3)">Back</button>
-                        <button class="btn-next" onclick="nextStep(5)">Next</button>
-                    </div>
-                </div>
-                
-                <!-- Step 5: Additional services -->
-                <div class="step" id="step5">
-                    <div class="question">Select additional services:</div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="opt_print" onchange="updateCalculation()">
-                        <label for="opt_print">Print diplomas & protocols <span class="price-tag">+150 ₪</span></label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="opt_landing" onchange="updateCalculation()">
-                        <label for="opt_landing">Competition landing page <span class="price-tag">+300 ₪</span></label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="opt_msg" onchange="updateCalculation()">
-                        <label for="opt_msg">SMS/email notifications <span class="price-tag">50% of per participant cost</span></label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="opt_photo" onchange="updateCalculation()">
-                        <label for="opt_photo">Event photography <span class="price-tag">+800 ₪</span></label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="opt_video" onchange="updateCalculation()">
-                        <label for="opt_video">Video recording & editing <span class="price-tag">+1200 ₪</span></label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="opt_stream" onchange="updateCalculation()">
-                        <label for="opt_stream">Live streaming <span class="price-tag">+1000 ₪</span></label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="opt_host" onchange="updateCalculation()">
-                        <label for="opt_host">Professional host <span class="price-tag">+1500 ₪</span></label>
-                    </div>
-                    
-                    <div class="input-group" style="margin-top: 24px;">
-                        <label>On-site support hours:</label>
-                        <input type="number" id="supportHours" min="0" value="0" placeholder="0" onchange="updateCalculation()">
-                        <div style="color: var(--text-secondary); font-size: 14px; margin-top: 6px;">Cost: 32.5 ₪/hour per staff member</div>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Number of support staff:</label>
-                        <input type="number" id="supportStaff" min="0" value="0" placeholder="0" onchange="updateCalculation()">
-                    </div>
-                    
-                    <div class="nav-buttons">
-                        <button class="btn-prev" onclick="prevStep(4)">Back</button>
-                        <button class="btn-next" onclick="calculate()">Calculate</button>
-                    </div>
-                </div>
-                
-                <!-- Step 6: Result -->
-                <div class="step" id="step6">
-                    <div class="question">Competition Cost Calculation</div>
-                    
-                    <div class="receipt-container">
-                        <div class="receipt" id="receipt">
-                            <div class="receipt-header">
-                                <div class="receipt-title">Rising Star Manager</div>
-                                <div class="receipt-info">Official Cost Calculation</div>
-                                <div class="receipt-info" id="receipt-date"></div>
-                            </div>
-                            
-                            <div class="receipt-line">
-                                <span id="contest-type-receipt"></span>
-                                <span id="contest-base-price"></span>
-                            </div>
-                            
-                            <div class="receipt-line">
-                                <span>Participants: <span id="participants-count"></span> × <span id="per-participant-price"></span></span>
-                                <span id="participants-total"></span>
-                            </div>
-                            
-                            <div id="additional-services">
-                                <!-- Additional services will be added via JS -->
-                            </div>
-                            
-                            <div class="receipt-line receipt-total">
-                                <span>TOTAL:</span>
-                                <span id="total-price"></span>
-                            </div>
-                            
-                            <div class="receipt-footer">
-                                <div>Included in all packages:</div>
-                                <div>Online registration <span class="free-badge">FREE</span></div>
-                                <div>Results publication <span class="free-badge">FREE</span></div>
-                                <div>Digital judging system <span class="free-badge">FREE</span></div>
-                                <div>Unlimited categories <span class="free-badge">FREE</span></div>
-                                <div>Technical support <span class="free-badge">FREE</span></div>
-                                
-                                <div class="phone">Contact: +7 (999) 123-45-67</div>
-                            </div>
-                        </div>
-                        
-                        <div class="action-buttons">
-                            <button class="btn-download" onclick="downloadPDF()">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 16L12 4M12 16L8 12M12 16L16 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M4 20H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                                Download PDF
-                            </button>
-                            <button class="btn-new" onclick="resetCalculator()">New Calculation</button>
-                        </div>
-                    </div>
-                </div>
+        <div class="card">
+            <h1>Rising Star Manager</h1>
+            <p class="subtitle">Professional competition pricing calculator</p>
+            
+            <!-- Progress bar -->
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-step active" id="step1Indicator">1</div>
+                <div class="progress-step" id="step2Indicator">2</div>
+                <div class="progress-step" id="step3Indicator">3</div>
+                <div class="progress-step" id="step4Indicator">4</div>
+                <div class="progress-step" id="step5Indicator">5</div>
+                <div class="progress-step" id="step6Indicator">6</div>
             </div>
-        </div>
-        
-        <div class="summary-container">
-            <div class="total-price-container">
-                <div class="total-price-label">Total Cost</div>
-                <div class="total-price" id="live-total-price">0 ₪</div>
-                <div style="color: var(--text-secondary); font-size: 14px;">Price updates in real-time</div>
-                
-                <div class="price-breakdown" id="price-breakdown">
-                    <!-- Price breakdown will be added here -->
+            
+            <!-- Step 1: Competition type -->
+            <div class="step active" id="step1">
+                <div class="question">Select competition type:</div>
+                <div class="options">
+                    <div class="option" data-value="dance">
+                        <div class="option-icon">💃</div>
+                        <div class="option-title">Dance Competition</div>
+                        <div class="option-desc">Standard, Latin, Showdance, etc.</div>
+                    </div>
+                    <div class="option" data-value="vocal">
+                        <div class="option-icon">🎤</div>
+                        <div class="option-title">Vocal Competition</div>
+                        <div class="option-desc">Singing contests and vocal performances</div>
+                    </div>
+                    <div class="option" data-value="other">
+                        <div class="option-icon">🌟</div>
+                        <div class="option-title">Other Competition</div>
+                        <div class="option-desc">Other types of competitions</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <div></div>
+                    <button class="btn-next" onclick="nextStep(2)">Next</button>
                 </div>
             </div>
             
-            <div class="card">
-                <h3>About the Calculator</h3>
-                <p>This calculator helps you estimate the cost of organizing a competition with all selected services.</p>
-                <p>The price automatically updates when parameters change.</p>
-                <p>Fixed maximum price is applied when reaching 450 participants.</p>
+            <!-- Step 2: Dance type (only for dance competitions) -->
+            <div class="step" id="step2">
+                <div class="question">Select dance competition type:</div>
+                <div class="options">
+                    <div class="option" data-value="idsf_other">
+                        <div class="option-icon">🌍</div>
+                        <div class="option-title">IDSF - Other</div>
+                        <div class="option-desc">+150 ₪</div>
+                    </div>
+                    <div class="option" data-value="idsf_ballroom">
+                        <div class="option-icon">👑</div>
+                        <div class="option-title">IDSF - Ballroom</div>
+                        <div class="option-desc">+200 ₪</div>
+                    </div>
+                    <div class="option" data-value="ballroom">
+                        <div class="option-icon">💫</div>
+                        <div class="option-title">Ballroom (non-IDSF)</div>
+                        <div class="option-desc">No additional cost</div>
+                    </div>
+                    <div class="option" data-value="other_dance">
+                        <div class="option-icon">🎭</div>
+                        <div class="option-title">Other Dance</div>
+                        <div class="option-desc">No additional cost</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-prev" onclick="prevStep(1)">Back</button>
+                    <button class="btn-next" onclick="nextStep(3)">Next</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Number of participants -->
+            <div class="step" id="step3">
+                <div class="question">Number of competitors:</div>
+                <div class="input-group">
+                    <input type="number" id="participants" min="1" value="50" placeholder="Enter number of competitors">
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-prev" onclick="prevStep(2)">Back</button>
+                    <button class="btn-next" onclick="nextStep(4)">Next</button>
+                </div>
+            </div>
+            
+            <!-- Step 4: Competition days -->
+            <div class="step" id="step4">
+                <div class="question">Competition duration (days):</div>
+                <div class="options">
+                    <div class="option" data-value="1">
+                        <div class="option-icon">1</div>
+                        <div class="option-title">1 Day</div>
+                        <div class="option-desc">-250 ₪</div>
+                    </div>
+                    <div class="option" data-value="2-3">
+                        <div class="option-icon">2-3</div>
+                        <div class="option-title">2-3 Days</div>
+                        <div class="option-desc">+200 ₪</div>
+                    </div>
+                    <div class="option" data-value="4+">
+                        <div class="option-icon">4+</div>
+                        <div class="option-title">4+ Days</div>
+                        <div class="option-desc">+350 ₪</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-prev" onclick="prevStep(3)">Back</button>
+                    <button class="btn-next" onclick="nextStep(5)">Next</button>
+                </div>
+            </div>
+            
+            <!-- Step 5: Additional services -->
+            <div class="step" id="step5">
+                <div class="question">Select additional services:</div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="opt_sms">
+                    <label for="opt_sms">SMS/E-mail notifications <span class="price-tag">+450 ₪</span></label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="opt_live">
+                    <label for="opt_live">Live results on screen <span class="price-tag">+450 ₪</span></label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="opt_landing">
+                    <label for="opt_landing">Competition landing page <span class="price-tag">+450 ₪</span></label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="opt_tickets">
+                    <label for="opt_tickets">Ticket system for spectators <span class="price-tag">+450 ₪</span></label>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn-prev" onclick="prevStep(4)">Back</button>
+                    <button class="btn-next" onclick="nextStep(6)">Calculate</button>
+                </div>
+            </div>
+            
+            <!-- Step 6: Contact form and results -->
+            <div class="step" id="step6">
+                <div class="question">Contact Information & Final Calculation</div>
+                
+                <div class="contact-form">
+                    <div class="input-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Your full name">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" placeholder="Your company">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="position">Position</label>
+                        <input type="text" id="position" placeholder="Your position">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" value="+972547798676" placeholder="Your phone number">
+                    </div>
+                    
+                    <div class="input-group" style="grid-column: span 2;">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Your email address">
+                    </div>
+                </div>
+                
+                <div class="receipt-container">
+                    <div class="receipt" id="receipt">
+                        <div class="receipt-header">
+                            <div class="receipt-title">Rising Star Manager</div>
+                            <div class="receipt-info">Official Cost Calculation</div>
+                            <div class="receipt-info" id="receipt-date"></div>
+                        </div>
+                        
+                        <div class="receipt-line">
+                            <span id="contest-type-receipt"></span>
+                            <span id="contest-base-price"></span>
+                        </div>
+                        
+                        <div id="additional-services">
+                            <!-- Additional services will be added via JS -->
+                        </div>
+                        
+                        <div class="receipt-line receipt-total">
+                            <span>TOTAL:</span>
+                            <span id="total-price"></span>
+                        </div>
+                        
+                        <div class="receipt-footer">
+                            <div class="phone">Contact: +972547798676</div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-download" onclick="downloadPDF()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 16L12 4M12 16L8 12M12 16L16 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 20H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Download PDF
+                        </button>
+                        <button class="btn-new" onclick="resetCalculator()">New Calculation</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -751,64 +645,65 @@
     <script>
         // Price configuration
         const PRICES = {
-            threshold: 450,
-            smallClubLimit: 20,
-            smallClubDiscount: 0.25,
-            baseHourlyFull: 65,
-            categories: {
-                vocal: { label: "Vocal Competition", base: 500, per: 2.0, cap: 1400 },
-                dance: { label: "Dance Competition", base: 450, per: 2.2, cap: 1500 },
-                ballroom: {
-                    internal: { label: "Ballroom (Internal)", base: 400, per: 2.0, cap: 1300 },
-                    idsf: { label: "Ballroom (IDSF)", base: 700, per: 3.0, cap: 2000 },
-                    non_idsf: { label: "Ballroom (Non-IDSF)", base: 600, per: 2.5, cap: 1700 }
-                }
+            sms: 450,
+            live: 450,
+            landing: 450,
+            tickets: 450,
+            days: {
+                1: -250,
+                "2-3": 200,
+                "4+": 350
             },
-            options: {
-                print: { label: "Diploma Printing", price: 150 },
-                landing: { label: "Landing Page", price: 300 },
-                photo: { label: "Event Photography", price: 800 },
-                video: { label: "Video Recording", price: 1200 },
-                stream: { label: "Live Streaming", price: 1000 },
-                host: { label: "Professional Host", price: 1500 },
-                supportHourlyHalf: 32.5
+            danceTypes: {
+                idsf_other: 150,
+                idsf_ballroom: 200,
+                ballroom: 0,
+                other_dance: 0
             }
         };
         
-        let selectedCategory = '';
-        let selectedBallroomType = '';
+        let selectedCompetitionType = '';
+        let selectedDanceType = '';
+        let selectedDays = '';
         let currentStep = 1;
         const totalSteps = 6;
         
         // Initialization
         document.addEventListener('DOMContentLoaded', function() {
-            // Add handlers for competition category selection
+            // Add handlers for competition type selection
             const options = document.querySelectorAll('#step1 .option');
             options.forEach(option => {
                 option.addEventListener('click', function() {
                     options.forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
-                    selectedCategory = this.getAttribute('data-value');
+                    selectedCompetitionType = this.getAttribute('data-value');
                     
                     // Show/hide step 2 based on selection
-                    if (selectedCategory === 'ballroom') {
+                    if (selectedCompetitionType === 'dance') {
                         document.getElementById('step2Indicator').style.display = 'flex';
                     } else {
                         document.getElementById('step2Indicator').style.display = 'none';
                     }
-                    
-                    updateCalculation();
                 });
             });
             
-            // Add handlers for ballroom type selection
-            const ballroomOptions = document.querySelectorAll('#step2 .option');
-            ballroomOptions.forEach(option => {
+            // Add handlers for dance type selection
+            const danceOptions = document.querySelectorAll('#step2 .option');
+            danceOptions.forEach(option => {
                 option.addEventListener('click', function() {
-                    ballroomOptions.forEach(opt => opt.classList.remove('selected'));
+                    danceOptions.forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
-                    selectedBallroomType = this.getAttribute('data-value');
-                    updateCalculation();
+                    selectedDanceType = this.getAttribute('data-value');
+                });
+            });
+            
+            // Add handlers for days selection
+            const daysOptions = document.querySelectorAll('#step4 .option');
+            daysOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    daysOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedDays = this.getAttribute('data-value');
                 });
             });
             
@@ -819,32 +714,33 @@
                 
             // Update progress bar
             updateProgressBar();
-            
-            // Initial calculation
-            updateCalculation();
         });
         
         // Step navigation
         function nextStep(step) {
             // Validation before proceeding
-            if (step === 2 && !selectedCategory) {
-                alert('Please select a competition category');
+            if (step === 2 && !selectedCompetitionType) {
+                alert('Please select a competition type');
                 return;
             }
             
-            if (step === 3 && selectedCategory === 'ballroom' && !selectedBallroomType) {
-                alert('Please select a ballroom competition type');
+            if (step === 3 && selectedCompetitionType === 'dance' && !selectedDanceType) {
+                alert('Please select a dance competition type');
                 return;
             }
             
-            if (step === 3 && (!document.getElementById('participants').value || document.getElementById('participants').value < 1)) {
+            if (step === 4 && (!document.getElementById('participants').value || document.getElementById('participants').value < 1)) {
                 alert('Please enter a valid number of participants');
                 return;
             }
             
-            if (step === 4 && (!document.getElementById('days').value || document.getElementById('days').value < 1)) {
-                alert('Please enter a valid competition duration');
+            if (step === 5 && !selectedDays) {
+                alert('Please select competition duration');
                 return;
+            }
+            
+            if (step === 6) {
+                calculatePrice();
             }
             
             document.querySelector('.step.active').classList.remove('active');
@@ -895,347 +791,26 @@
             document.getElementById('progressFill').style.width = progress + '%';
         }
         
-        // Real-time calculation update function
-        function updateCalculation() {
-            if (!selectedCategory) return;
-            if (selectedCategory === 'ballroom' && !selectedBallroomType) return;
+        // Price calculation based on the provided algorithm
+        function calculatePrice() {
+            let basePrice = 0;
+            const participants = parseInt(document.getElementById('participants').value) || 0;
             
-            let cfg;
-            if (selectedCategory === 'ballroom') {
-                cfg = PRICES.categories.ballroom[selectedBallroomType];
+            // Step 1: Competition type
+            let competitionTypeText = "";
+            if (selectedCompetitionType === 'dance') {
+                competitionTypeText = "Dance Competition";
+            } else if (selectedCompetitionType === 'vocal') {
+                competitionTypeText = "Vocal Competition";
             } else {
-                cfg = PRICES.categories[selectedCategory];
+                competitionTypeText = "Other Competition";
             }
             
-            let participants = Math.max(1, parseInt(document.getElementById('participants').value) || 1);
-            const days = Math.max(1, parseInt(document.getElementById('days').value) || 1);
-            const smallClub = participants <= PRICES.smallClubLimit;
-            
-            // Rates with small club discount
-            const base = cfg.base * (smallClub ? (1 - PRICES.smallClubDiscount) : 1);
-            const per = cfg.per * (smallClub ? (1 - PRICES.smallClubDiscount) : 1);
-            
-            let variable = per * participants;
-            let subtotal = base + variable;
-            
-            let capApplied = false;
-            if (participants >= PRICES.threshold) {
-                capApplied = true;
-                subtotal = Math.min(subtotal, cfg.cap);
-            }
-            
-            // Additional services
-            const optPrint = document.getElementById('opt_print').checked;
-            const optLanding = document.getElementById('opt_landing').checked;
-            const optMsg = document.getElementById('opt_msg').checked;
-            const optPhoto = document.getElementById('opt_photo').checked;
-            const optVideo = document.getElementById('opt_video').checked;
-            const optStream = document.getElementById('opt_stream').checked;
-            const optHost = document.getElementById('opt_host').checked;
-            const supportHours = Math.max(0, parseInt(document.getElementById('supportHours').value) || 0);
-            const supportStaff = Math.max(0, parseInt(document.getElementById('supportStaff').value) || 0);
-            
-            let optionsTotal = 0;
-            const breakdown = document.getElementById('price-breakdown');
-            breakdown.innerHTML = '';
-            
-            // Add base cost
-            addPriceLine(breakdown, `Base tariff (${cfg.label})`, base);
-            
-            // Add participant cost
-            addPriceLine(breakdown, `Participants (${participants} × ${per.toFixed(2)} ₪)`, variable);
-            
-            // Apply fixed price if needed
-            if (capApplied) {
-                addPriceLine(breakdown, `Fixed price (≥${PRICES.threshold} participants)`, cfg.cap - subtotal, true);
-                subtotal = cfg.cap;
-            }
-            
-            // Apply small club discount if needed
-            if (smallClub) {
-                addPriceLine(breakdown, `Small club discount (≤${PRICES.smallClubLimit} participants)`, -(cfg.base * PRICES.smallClubDiscount + cfg.per * PRICES.smallClubDiscount * participants), true);
-            }
-            
-            // Add additional services
-            if (optPrint) {
-                optionsTotal += PRICES.options.print.price;
-                addPriceLine(breakdown, PRICES.options.print.label, PRICES.options.print.price);
-            }
-            
-            if (optLanding) {
-                optionsTotal += PRICES.options.landing.price;
-                addPriceLine(breakdown, PRICES.options.landing.label, PRICES.options.landing.price);
-            }
-            
-            if (optMsg) {
-                const msgCost = 0.5 * cfg.per * participants;
-                optionsTotal += msgCost;
-                addPriceLine(breakdown, 'SMS/email notifications', msgCost);
-            }
-            
-            if (optPhoto) {
-                optionsTotal += PRICES.options.photo.price;
-                addPriceLine(breakdown, PRICES.options.photo.label, PRICES.options.photo.price);
-            }
-            
-            if (optVideo) {
-                optionsTotal += PRICES.options.video.price;
-                addPriceLine(breakdown, PRICES.options.video.label, PRICES.options.video.price);
-            }
-            
-            if (optStream) {
-                optionsTotal += PRICES.options.stream.price;
-                addPriceLine(breakdown, PRICES.options.stream.label, PRICES.options.stream.price);
-            }
-            
-            if (optHost) {
-                optionsTotal += PRICES.options.host.price;
-                addPriceLine(breakdown, PRICES.options.host.label, PRICES.options.host.price);
-            }
-            
-            if (supportHours > 0 && supportStaff > 0) {
-                const supportCost = PRICES.options.supportHourlyHalf * supportHours * supportStaff;
-                optionsTotal += supportCost;
-                addPriceLine(breakdown, `Support (${supportHours}h × ${supportStaff} staff)`, supportCost);
-            }
-            
-            const total = subtotal + optionsTotal;
-            
-            // Add total line
-            const totalLine = document.createElement('div');
-            totalLine.className = 'price-line price-line-total';
-            totalLine.innerHTML = `
-                <span>TOTAL:</span>
-                <span>${total.toFixed(2)} ₪</span>
-            `;
-            breakdown.appendChild(totalLine);
-            
-            // Update total cost with animation
-            const totalElement = document.getElementById('live-total-price');
-            totalElement.textContent = `${total.toFixed(2)} ₪`;
-            totalElement.classList.add('price-updated');
-            setTimeout(() => {
-                totalElement.classList.remove('price-updated');
-            }, 500);
-        }
-        
-        function addPriceLine(container, label, value, isDiscount = false) {
-            const line = document.createElement('div');
-            line.className = 'price-line';
-            
-            const sign = value >= 0 ? '+' : '';
-            const valueClass = isDiscount ? 'style="color:var(--success);"' : '';
-            
-            line.innerHTML = `
-                <span>${label}</span>
-                <span ${valueClass}>${sign}${value.toFixed(2)} ₪</span>
-            `;
-            container.appendChild(line);
-        }
-        
-        // Final calculation for receipt
-        function calculate() {
-            if (!selectedCategory) {
-                alert('Please select a competition category');
-                prevStep(1);
-                return;
-            }
-            
-            if (selectedCategory === 'ballroom' && !selectedBallroomType) {
-                alert('Please select a ballroom competition type');
-                prevStep(2);
-                return;
-            }
-            
-            let cfg;
-            if (selectedCategory === 'ballroom') {
-                cfg = PRICES.categories.ballroom[selectedBallroomType];
-            } else {
-                cfg = PRICES.categories[selectedCategory];
-            }
-            
-            let participants = Math.max(1, parseInt(document.getElementById('participants').value) || 1);
-            const days = Math.max(1, parseInt(document.getElementById('days').value) || 1);
-            const smallClub = participants <= PRICES.smallClubLimit;
-            
-            // Rates with small club discount
-            const base = cfg.base * (smallClub ? (1 - PRICES.smallClubDiscount) : 1);
-            const per = cfg.per * (smallClub ? (1 - PRICES.smallClubDiscount) : 1);
-            
-            let variable = per * participants;
-            let subtotal = base + variable;
-            
-            let capApplied = false;
-            if (participants >= PRICES.threshold) {
-                capApplied = true;
-                subtotal = Math.min(subtotal, cfg.cap);
-            }
-            
-            // Additional services
-            const optPrint = document.getElementById('opt_print').checked;
-            const optLanding = document.getElementById('opt_landing').checked;
-            const optMsg = document.getElementById('opt_msg').checked;
-            const optPhoto = document.getElementById('opt_photo').checked;
-            const optVideo = document.getElementById('opt_video').checked;
-            const optStream = document.getElementById('opt_stream').checked;
-            const optHost = document.getElementById('opt_host').checked;
-            const supportHours = Math.max(0, parseInt(document.getElementById('supportHours').value) || 0);
-            const supportStaff = Math.max(0, parseInt(document.getElementById('supportStaff').value) || 0);
-            
-            let optionsTotal = 0;
-            const additionalServices = document.getElementById('additional-services');
-            additionalServices.innerHTML = '';
-            
-            if (optPrint) {
-                optionsTotal += PRICES.options.print.price;
-                addServiceToReceipt(PRICES.options.print.label, PRICES.options.print.price);
-            }
-            
-            if (optLanding) {
-                optionsTotal += PRICES.options.landing.price;
-                addServiceToReceipt(PRICES.options.landing.label, PRICES.options.landing.price);
-            }
-            
-            if (optMsg) {
-                const msgCost = 0.5 * cfg.per * participants;
-                optionsTotal += msgCost;
-                addServiceToReceipt('SMS/email notifications', msgCost);
-            }
-            
-            if (optPhoto) {
-                optionsTotal += PRICES.options.photo.price;
-                addServiceToReceipt(PRICES.options.photo.label, PRICES.options.photo.price);
-            }
-            
-            if (optVideo) {
-                optionsTotal += PRICES.options.video.price;
-                addServiceToReceipt(PRICES.options.video.label, PRICES.options.video.price);
-            }
-            
-            if (optStream) {
-                optionsTotal += PRICES.options.stream.price;
-                addServiceToReceipt(PRICES.options.stream.label, PRICES.options.stream.price);
-            }
-            
-            if (optHost) {
-                optionsTotal += PRICES.options.host.price;
-                addServiceToReceipt(PRICES.options.host.label, PRICES.options.host.price);
-            }
-            
-            if (supportHours > 0 && supportStaff > 0) {
-                const supportCost = PRICES.options.supportHourlyHalf * supportHours * supportStaff;
-                optionsTotal += supportCost;
-                addServiceToReceipt(`On-site support (${supportHours}h × ${supportStaff} staff)`, supportCost);
-            }
-            
-            const total = subtotal + optionsTotal;
-            
-            // Fill receipt
-            document.getElementById('contest-type-receipt').textContent = cfg.label;
-            document.getElementById('contest-base-price').textContent = base.toFixed(2) + ' ₪';
-            document.getElementById('participants-count').textContent = participants;
-            document.getElementById('per-participant-price').textContent = per.toFixed(2) + ' ₪';
-            document.getElementById('participants-total').textContent = variable.toFixed(2) + ' ₪';
-            document.getElementById('total-price').textContent = total.toFixed(2) + ' ₪';
-            
-            if (capApplied) {
-                const capNote = document.createElement('div');
-                capNote.className = 'receipt-line';
-                capNote.innerHTML = `<span style="color:var(--success);">Fixed price applied (≥${PRICES.threshold} participants)</span><span></span>`;
-                additionalServices.appendChild(capNote);
-            }
-            
-            if (smallClub) {
-                const discountNote = document.createElement('div');
-                discountNote.className = 'receipt-line';
-                discountNote.innerHTML = `<span style="color:var(--success);">Small club discount (≤${PRICES.smallClubLimit} participants)</span><span>-${(PRICES.smallClubDiscount * 100)}%</span>`;
-                additionalServices.appendChild(discountNote);
-            }
-            
-            // Go to final step
-            nextStep(6);
-        }
-        
-        function addServiceToReceipt(label, price) {
-            const serviceLine = document.createElement('div');
-            serviceLine.className = 'receipt-line';
-            serviceLine.innerHTML = `<span>${label}</span><span>+${price.toFixed(2)} ₪</span>`;
-            document.getElementById('additional-services').appendChild(serviceLine);
-        }
-        
-        // Download receipt as PDF
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4'
-            });
-            
-            const receiptElement = document.getElementById('receipt');
-            
-            html2canvas(receiptElement, {
-                scale: 2,
-                useCORS: true,
-                logging: false
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 180; // A4 width in mm
-                const pageHeight = 280; // A4 height in mm
-                const imgHeight = canvas.height * imgWidth / canvas.width;
+            // Step 2: Dance type (only for dance competitions)
+            let danceTypePrice = 0;
+            if (selectedCompetitionType === 'dance') {
+                danceTypePrice = PRICES.danceTypes[selectedDanceType] || 0;
                 
-                doc.addImage(imgData, 'PNG', 15, 10, imgWidth, imgHeight);
-                doc.save('rising-star-receipt.pdf');
-            });
-        }
-        
-        // Reset calculator
-        function resetCalculator() {
-            // Reset selected values
-            selectedCategory = '';
-            selectedBallroomType = '';
-            
-            // Reset UI
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            document.getElementById('participants').value = '80';
-            document.getElementById('days').value = '1';
-            
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            
-            document.getElementById('supportHours').value = '0';
-            document.getElementById('supportStaff').value = '0';
-            
-            // Reset progress indicators
-            document.querySelectorAll('.progress-step').forEach((el, index) => {
-                if (index === 0) {
-                    el.classList.add('active');
-                } else {
-                    el.classList.remove('active');
-                    el.classList.remove('completed');
-                }
-            });
-            
-            // Show first step
-            document.querySelectorAll('.step').forEach((step, index) => {
-                if (index === 0) {
-                    step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
-                }
-            });
-            
-            // Show step 2 in progress bar
-            document.getElementById('step2Indicator').style.display = 'flex';
-            
-            currentStep = 1;
-            updateProgressBar();
-            updateCalculation();
-        }
-    </script>
-</body>
-</html>
+                if (selectedDanceType === 'idsf_other') {
+                    competitionTypeText += " - IDSF Other";
+                } else if (selected
